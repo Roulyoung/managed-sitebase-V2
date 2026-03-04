@@ -1,13 +1,14 @@
 import { useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { ArrowLeft, ArrowRight, CalendarDays, Tag } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingContact from "@/components/FloatingContact";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, CalendarDays, Tag } from "lucide-react";
 import { getPostsForLocale, PAGE_SIZE, paginate } from "@/lib/blogData";
-import { Helmet } from "react-helmet-async";
 import { getAlternateHrefLangs, getLocaleFromPath, stripLocaleFromPath, withLocalePath } from "@/lib/i18n";
-import { useLocation } from "react-router-dom";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 const formatDate = (value: string, locale: "nl" | "en") =>
   new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "nl-NL", {
@@ -61,11 +62,11 @@ const Blog = () => {
   const [page, setPage] = useState(1);
   const totalPages = useMemo(() => Math.max(1, Math.ceil(posts.length / PAGE_SIZE)), [posts.length]);
   const visiblePosts = useMemo(() => paginate(posts, page, PAGE_SIZE), [page, posts]);
-  const title = "Blog | Sitedesk";
+  const title = `Blog | ${SITE_CONFIG.siteName}`;
   const description = isEn
-    ? "Practical insights on edge performance, CRO, checkout, and scalable e-commerce architecture."
-    : "Praktische inzichten over edge-performance, CRO, checkout en schaalbare e-commerce architectuur.";
-  const canonical = `https://sitedesk.co${withLocalePath("/blog", locale)}`;
+    ? "Use this space for your own articles, cases, and brand insights."
+    : "Gebruik deze ruimte voor je eigen artikelen, cases en merkverhalen.";
+  const canonical = `${SITE_CONFIG.siteUrl}${withLocalePath("/blog", locale)}`;
 
   return (
     <div className="min-h-screen bg-background">
@@ -90,12 +91,12 @@ const Blog = () => {
               Blog
             </span>
             <h1 className="text-4xl md:text-5xl font-bold text-foreground">
-              {isEn ? "Insights for ambitious webshops" : "Inzichten voor ambitieuze webshops"}
+              {isEn ? "Blog placeholder for your own content" : "Blog-placeholder voor je eigen content"}
             </h1>
             <p className="text-lg text-muted-foreground">
               {isEn
-                ? "Practical articles on edge performance, CRO, checkout, and operations without developers."
-                : "Praktische artikelen over edge-performance, CRO, checkout en beheer zonder developers. We schrijven vanuit de praktijk van managed headless webshops."}
+                ? "The posts below are neutral examples. Replace them with your own knowledge base, updates, or case studies."
+                : "De artikelen hieronder zijn neutrale voorbeelden. Vervang ze door je eigen kennisbank, updates of cases."}
             </p>
           </div>
         </section>
@@ -111,10 +112,7 @@ const Blog = () => {
 
           <div className="grid md:grid-cols-2 gap-8">
             {visiblePosts.map((post) => (
-              <article
-                key={post.id}
-                className="p-6 rounded-2xl border border-border bg-card shadow-sm hover:shadow-md transition-shadow"
-              >
+              <article key={post.id} className="p-6 rounded-2xl border border-border bg-card shadow-sm hover:shadow-md transition-shadow">
                 <div className="flex items-center gap-3 text-sm text-muted-foreground mb-3">
                   <CalendarDays className="w-4 h-4" />
                   <span suppressHydrationWarning>{formatDate(post.date, isEn ? "en" : "nl")}</span>

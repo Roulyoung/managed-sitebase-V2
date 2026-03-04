@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { getLandingSectionHash, getLocaleFromPath, withLocalePath } from "@/lib/i18n";
 import { t } from "@/lib/messages";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 const Footer = () => {
   const location = useLocation();
@@ -17,26 +18,23 @@ const Footer = () => {
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
               <img
-                src="/icon-sitedesk.png"
-                alt="Sitedesk logo"
+                src={SITE_CONFIG.logoPath}
+                alt={`${SITE_CONFIG.siteName} logo`}
                 className="w-10 h-10 rounded-lg bg-primary-foreground/10 p-1.5"
               />
-              <div className="flex items-baseline gap-1">
-                <span className="font-bold text-xl">Sitedesk</span>
-                <span className="text-primary-foreground/60 text-sm">.co</span>
-              </div>
+              <span className="font-bold text-xl">{SITE_CONFIG.siteName}</span>
             </div>
             <p className="text-primary-foreground/70 max-w-sm mb-6">
               {isEn
-                ? "Your digital right hand. Professional websites for entrepreneurs, fully managed for only EUR 1 per day."
-                : "Jouw digitale rechterhand. Professionele websites voor ondernemers, volledig beheerd voor slechts EUR 1 per dag."}
+                ? "Replace this copy with your own positioning, offer, and brand story."
+                : "Vervang deze tekst door je eigen positionering, aanbod en merkverhaal."}
             </p>
             <div className="space-y-2 text-sm text-primary-foreground/70">
               <div className="flex items-start gap-2">
                 <MapPin size={16} className="mt-0.5" />
                 <div>
-                  <div>Den Ouden Holding B.V.</div>
-                  <div>Keizerrijk 44, 1012VM Amsterdam, Netherlands</div>
+                  <div>{SITE_CONFIG.legalName}</div>
+                  <div>{SITE_CONFIG.addressLine}</div>
                 </div>
               </div>
             </div>
@@ -67,7 +65,7 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="https://wa.me/31640326650" target="_blank" rel="noreferrer" className="hover:text-primary-foreground transition-colors">
+                <a href={SITE_CONFIG.whatsappHref} target="_blank" rel="noreferrer" className="hover:text-primary-foreground transition-colors">
                   {t(locale, "footer.whatsapp")}
                 </a>
               </li>
@@ -101,7 +99,7 @@ const Footer = () => {
 
         <div className="border-t border-primary-foreground/10 mt-12 pt-8 text-center text-sm text-primary-foreground/60">
           <p suppressHydrationWarning>
-            © {new Date().getFullYear()} Sitedesk.co. {isEn ? "All rights reserved." : "Alle rechten voorbehouden."}
+            Copyright {new Date().getFullYear()} {SITE_CONFIG.siteName}. {isEn ? "All rights reserved." : "Alle rechten voorbehouden."}
           </p>
         </div>
       </div>

@@ -5,6 +5,7 @@ import { Menu, X, MessageCircle } from "lucide-react";
 import { getLandingSectionHash, getLocaleFromPath, withLocalePath, type LandingSectionKey } from "@/lib/i18n";
 import { t } from "@/lib/messages";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 const navLinks = [
   { sectionKey: "tech" as LandingSectionKey, labelKey: "nav.tech", type: "hash" as const },
@@ -42,7 +43,7 @@ const Header = () => {
   };
 
   const isActive = (to: string, type: "route" | "hash") => {
-    const origin = isBrowser ? window.location.origin : "https://sitedesk.co";
+    const origin = isBrowser ? window.location.origin : SITE_CONFIG.siteUrl;
     if (type === "hash") {
       const url = new URL(to, origin);
       return location.pathname === url.pathname && location.hash === url.hash;
@@ -77,15 +78,15 @@ const Header = () => {
       <div className="container mx-auto flex items-center justify-between h-16 md:h-20">
         <a href={withLocalePath("/", locale)} className="flex items-center gap-2">
           <img
-            src="/icon-sitedesk.png"
-            alt="Sitedesk logo"
+            src={SITE_CONFIG.logoPath}
+            alt={`${SITE_CONFIG.siteName} logo`}
             className="w-9 h-9 rounded-lg object-contain"
             loading="eager"
             fetchpriority="high"
             decoding="async"
           />
-          <span className="font-bold text-xl text-foreground">Sitedesk</span>
-          <span className="text-muted-foreground text-sm">.co</span>
+          <span className="font-bold text-xl text-foreground">{SITE_CONFIG.siteName}</span>
+          {SITE_CONFIG.siteSuffix ? <span className="text-muted-foreground text-sm">{SITE_CONFIG.siteSuffix}</span> : null}
         </a>
 
         <nav className="hidden md:flex items-center gap-8">
@@ -118,7 +119,7 @@ const Header = () => {
         <div className="hidden md:flex items-center gap-3">
           <LanguageSwitcher />
           <Button asChild variant="outline" size="sm" className="border-accent text-accent hover:bg-accent/10">
-            <a href="https://wa.me/31640326650" target="_blank" rel="noreferrer">
+            <a href={SITE_CONFIG.whatsappHref} target="_blank" rel="noreferrer">
               <MessageCircle className="w-4 h-4" />
               {t(locale, "cta.whatsapp")}
             </a>
@@ -176,7 +177,7 @@ const Header = () => {
               className="border-accent text-accent hover:bg-accent/10"
               onClick={() => setIsMenuOpen(false)}
             >
-              <a href="https://wa.me/31640326650" target="_blank" rel="noreferrer">
+              <a href={SITE_CONFIG.whatsappHref} target="_blank" rel="noreferrer">
                 <MessageCircle />
                 {t(locale, "cta.whatsapp")}
               </a>

@@ -482,8 +482,8 @@ async function handleCreateCheckoutSession(req, env) {
     });
 
     const stripe = getStripeClient(env);
-    const successBase = env.CHECKOUT_SUCCESS_URL || "https://sitedesk.co/success";
-    const cancelUrl = env.CHECKOUT_CANCEL_URL || "https://sitedesk.co/cancel";
+    const successBase = env.CHECKOUT_SUCCESS_URL || "https://example.com/success";
+    const cancelUrl = env.CHECKOUT_CANCEL_URL || "https://example.com/cancel";
     const successUrl = (() => {
       try {
         const url = new URL(successBase);

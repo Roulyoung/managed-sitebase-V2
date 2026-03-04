@@ -1,73 +1,66 @@
-# Welcome to your Lovable project
+# managed-sitebase-V2
 
-## Project info
+Neutrale website- en webshop-template voor snelle klantstarts. Deze repo is opgeschoond van oude branding en gebruikt een centrale siteconfig voor merknaam, domein, logo en contactgegevens.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Stack
 
-## How can I edit this code?
+- Vite
+- React
+- TypeScript
+- Tailwind CSS
+- Cloudflare Pages / Functions / Worker-ready
 
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+## Snel starten
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
 git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+cd managed-sitebase-V2
+npm ci
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Siteconfig
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+De hoofdconfig staat in [src/lib/siteConfig.ts](./src/lib/siteConfig.ts).
 
-**Use GitHub Codespaces**
+Pas hier minimaal deze velden aan:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- `siteName`
+- `siteSuffix`
+- `siteUrl`
+- `logoPath`
+- `supportEmail`
+- `fallbackLeadEmail`
+- `phoneDisplay`
+- `phoneHref`
+- `whatsappHref`
+- `legalName`
+- `addressLine`
+- `authorName`
+- `authorRoleNl`
+- `authorRoleEn`
 
-## What technologies are used for this project?
+## Nieuwe klant starten vanuit deze template
 
-This project is built with:
+1. Maak een nieuwe repo vanaf deze template.
+2. Clone die nieuwe repo lokaal.
+3. Werk direct [src/lib/siteConfig.ts](./src/lib/siteConfig.ts) bij met de klantgegevens.
+4. Vervang placeholder-copy op homepage, webshop, blog en footer.
+5. Vervang `public/placeholder.svg` met het nieuwe logo of pas `logoPath` aan.
+6. Controleer metadata, contactformulieren, worker-envs en checkout-URLs.
+7. Draai `npm run build` voor verificatie.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Template workflow notitie
 
-## How can I deploy this project?
+Voor volgende keer:
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+1. Gebruik deze repo als GitHub template.
+2. Nieuwe start:
+   `gh repo create <owner>/<new-repo> --template <owner>/managed-sitebase-V2 --private --clone`
+3. Daarna in de nieuwe clone direct de siteconfig invullen en de merkcopy vervangen.
 
-## Can I connect a custom domain to my Lovable project?
+## Verifiëren
 
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+```sh
+npm run build
+```

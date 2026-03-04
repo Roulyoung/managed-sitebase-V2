@@ -28,7 +28,7 @@ function notFound(): Response {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Product niet gevonden</title>
-    <link rel="icon" type="image/png" href="/IconSitedesk-03.png" />
+    <link rel="icon" type="image/svg+xml" href="/placeholder.svg" />
   </head>
   <body>
     <main style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;font-family:system-ui,sans-serif;background:#f8fafc;color:#0f172a;">

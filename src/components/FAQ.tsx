@@ -60,7 +60,7 @@ const FAQ = () => {
             {isEn ? "Frequently asked questions" : "Veelgestelde vragen"}
           </h2>
           <p className="text-lg text-muted-foreground">
-            {isEn ? "Everything you need to know about Sitedesk." : "Alles wat je wilt weten over Sitedesk."}
+            {isEn ? "Update these answers with your own offer and process." : "Werk deze antwoorden bij met je eigen aanbod en werkwijze."}
           </p>
         </div>
 

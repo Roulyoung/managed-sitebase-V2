@@ -1,3 +1,5 @@
+import { SITE_CONFIG } from "@/lib/siteConfig";
+
 export const SUPPORTED_LOCALES = ["nl", "en", "de"] as const;
 export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
 
@@ -78,12 +80,12 @@ export const getAlternateHrefLangs = (pathWithoutLocale: string) => {
 
   const alternates = ACTIVE_LOCALES.map((locale) => ({
     locale,
-    href: `https://sitedesk.co${withLocalePath(normalized, locale)}`,
+    href: `${SITE_CONFIG.siteUrl}${withLocalePath(normalized, locale)}`,
   }));
 
   return [
     ...alternates,
-    { locale: "x-default", href: `https://sitedesk.co${normalized}` },
+    { locale: "x-default", href: `${SITE_CONFIG.siteUrl}${normalized}` },
   ];
 };
 

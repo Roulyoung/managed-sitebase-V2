@@ -51,8 +51,8 @@ name = "stripe-webhook-live"
 [env.live.vars]
 SHEET_ID = "REPLACE_WITH_LIVE_SHEET_ID"
 GOOGLE_SERVICE_ACCOUNT_EMAIL = "REPLACE_WITH_LIVE_SERVICE_ACCOUNT_EMAIL"
-CHECKOUT_SUCCESS_URL = "https://sitedesk.co/success"
-CHECKOUT_CANCEL_URL = "https://sitedesk.co/cancel"
+CHECKOUT_SUCCESS_URL = "https://example.com/success"
+CHECKOUT_CANCEL_URL = "https://example.com/cancel"
 PRODUCTS_CACHE_TTL = 900
 ORDER_SYNC_RETRY_BASE_MS = 60000
 ORDER_TTL_SECONDS = 2592000

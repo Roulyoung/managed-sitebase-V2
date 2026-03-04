@@ -12,18 +12,19 @@ import FloatingContact from "@/components/FloatingContact";
 import { Helmet } from "react-helmet-async";
 import { useLocation } from "react-router-dom";
 import { getAlternateHrefLangs, getLocaleFromPath, stripLocaleFromPath } from "@/lib/i18n";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 const Index = () => {
   const location = useLocation();
   const locale = getLocaleFromPath(location.pathname);
   const isEn = locale === "en";
   const pathWithoutLocale = stripLocaleFromPath(location.pathname);
-  const canonical = `https://sitedesk.co${location.pathname}`;
+  const canonical = `${SITE_CONFIG.siteUrl}${location.pathname}`;
   const alternateLinks = getAlternateHrefLangs(pathWithoutLocale);
-  const title = isEn ? "Managed Website for EUR 1/day | Sitedesk" : "Jouw website perfect beheerd voor EUR 1/dag | Sitedesk";
+  const title = isEn ? `Managed Website Template | ${SITE_CONFIG.siteName}` : `Website template voor jouw merk | ${SITE_CONFIG.siteName}`;
   const description = isEn
-    ? "Sitedesk builds, hosts, and maintains your website for EUR 1 per day. Fast, secure, and fully managed."
-    : "Sitedesk bouwt, host en onderhoudt je website voor EUR 1 per dag. Snel, veilig en volledig beheerd.";
+    ? "A neutral managed-website template. Replace the copy, visual identity, and contact details with your own brand."
+    : "Een neutrale website-template. Vervang de copy, visuele identiteit en contactgegevens met die van je eigen merk.";
 
   return (
     <div className="min-h-screen">

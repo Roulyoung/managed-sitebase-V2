@@ -18,6 +18,7 @@ import {
   withLocalePath,
   type SupportedLocale,
 } from "@/lib/i18n";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 type Product = {
   id: string;
@@ -248,26 +249,26 @@ const ProductPage = () => {
     }
   }, [product]);
 
-  const canonical = `https://sitedesk.co${location.pathname}`;
+  const canonical = `${SITE_CONFIG.siteUrl}${location.pathname}`;
   const localeAlternates = product
     ? [
         ...ACTIVE_LOCALES.map((altLocale) => {
           const localizedSlug = product.slugByLocale[altLocale] || product.slug || product.id;
           return {
             locale: altLocale,
-            href: `https://sitedesk.co${withLocalePath(`/product/${encodeURIComponent(localizedSlug)}`, altLocale)}`,
+            href: `${SITE_CONFIG.siteUrl}${withLocalePath(`/product/${encodeURIComponent(localizedSlug)}`, altLocale)}`,
           };
         }),
         {
           locale: "x-default",
-          href: `https://sitedesk.co${withLocalePath(`/product/${encodeURIComponent(product.slugByLocale.nl || product.slug || product.id)}`, "nl")}`,
+          href: `${SITE_CONFIG.siteUrl}${withLocalePath(`/product/${encodeURIComponent(product.slugByLocale.nl || product.slug || product.id)}`, "nl")}`,
         },
       ]
     : alternateLinks;
-  const seoTitle = product ? `${product.name} | Shop | Sitedesk` : "Product | Sitedesk";
+  const seoTitle = product ? `${product.name} | Shop | ${SITE_CONFIG.siteName}` : `Product | ${SITE_CONFIG.siteName}`;
   const seoDescription = product?.description?.trim()
     ? product.description.trim().slice(0, 155)
-    : "Bekijk productinformatie, prijs, levering en reken direct af via Sitedesk.";
+    : "Bekijk productinformatie, prijs, levering en bestel via deze template-shop.";
   const selectedMainSrc = selectedImage || product?.image || product?.images?.find(Boolean) || "https://dummyimage.com/800x600/edf2f7/1a202c&text=Product";
   const mainVariantSrc = withCloudflareVariant(selectedMainSrc, CF_MAIN_IMAGE_VARIANT);
   const resolvedMainSrc = mainVariantFailed ? selectedMainSrc : mainVariantSrc;
@@ -415,7 +416,7 @@ const ProductPage = () => {
     return (
       <div className="min-h-screen flex flex-col">
         <Helmet>
-          <title>{isEn ? "Product not found | Sitedesk" : "Product niet gevonden | Sitedesk"}</title>
+          <title>{isEn ? `Product not found | ${SITE_CONFIG.siteName}` : `Product niet gevonden | ${SITE_CONFIG.siteName}`}</title>
           <meta
             name="description"
             content={

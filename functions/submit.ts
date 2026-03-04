@@ -1,6 +1,7 @@
+import { SITE_CONFIG } from "../src/lib/siteConfig";
+
 const allowedOrigins = new Set([
-  "https://sitedesk.co",
-  "https://www.sitedesk.co",
+  SITE_CONFIG.siteUrl,
   "http://localhost:5173",
 ]);
 
@@ -12,7 +13,7 @@ function isAllowedOrigin(origin: string | null) {
 }
 
 function corsHeaders(origin: string | null) {
-  const allowOrigin = isAllowedOrigin(origin) || "https://sitedesk.co";
+  const allowOrigin = isAllowedOrigin(origin) || SITE_CONFIG.siteUrl;
   return {
     "Access-Control-Allow-Origin": allowOrigin,
     "Access-Control-Allow-Methods": "POST, OPTIONS",
@@ -87,7 +88,7 @@ export const onRequest: PagesFunction = async (context) => {
 
     const resolvedName = isCalculatorLead ? name || "Calculator lead" : name;
     // Keep backward compatibility with older Apps Script versions that require email.
-    const resolvedEmail = email || (isCalculatorLead ? "no-email@sitedesk.co" : "");
+    const resolvedEmail = email || (isCalculatorLead ? SITE_CONFIG.fallbackLeadEmail : "");
     const resolvedMessage =
       isCalculatorLead && !message
         ? [

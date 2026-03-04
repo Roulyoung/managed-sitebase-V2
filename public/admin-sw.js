@@ -1,5 +1,5 @@
 const CACHE_NAME = "admin-pwa-v1";
-const ASSETS = ["/", "/index.html", "/admin", "/admin-manifest.json", "/icon-sitedesk.png"];
+const ASSETS = ["/", "/index.html", "/admin", "/admin-manifest.json", "/placeholder.svg"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

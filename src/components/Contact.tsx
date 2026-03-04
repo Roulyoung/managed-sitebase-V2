@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Mail, Phone, MessageSquare } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { getLocaleFromPath } from "@/lib/i18n";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 declare global {
   interface Window {
@@ -82,20 +83,20 @@ const Contact = () => {
           <div className="space-y-3 text-muted-foreground">
             <div className="flex items-center gap-3">
               <Phone className="text-accent" size={18} />
-              <a href="tel:+31640326650" className="hover:text-foreground transition-colors">
-                +31 6 4032 6650
+              <a href={SITE_CONFIG.phoneHref} className="hover:text-foreground transition-colors">
+                {SITE_CONFIG.phoneDisplay}
               </a>
             </div>
             <div className="flex items-center gap-3">
               <Mail className="text-accent" size={18} />
-              <a href="mailto:info@sitedesk.co" className="hover:text-foreground transition-colors">
-                info@sitedesk.co
+              <a href={`mailto:${SITE_CONFIG.supportEmail}`} className="hover:text-foreground transition-colors">
+                {SITE_CONFIG.supportEmail}
               </a>
             </div>
           </div>
           <div className="flex flex-wrap gap-3 pt-2">
             <Button asChild variant="secondary">
-              <a href="https://wa.me/31640326650" target="_blank" rel="noreferrer">
+              <a href={SITE_CONFIG.whatsappHref} target="_blank" rel="noreferrer">
                 {isEn ? "WhatsApp us" : "WhatsApp ons"}
               </a>
             </Button>

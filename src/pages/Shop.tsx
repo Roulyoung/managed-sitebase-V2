@@ -16,6 +16,7 @@ import {
   stripLocaleFromPath,
   withLocalePath,
 } from "@/lib/i18n";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 type Product = {
   name: string;
@@ -72,12 +73,12 @@ const Shop = () => {
   const locale = getLocaleFromPath(location.pathname);
   const isEn = locale === "en";
   const pathWithoutLocale = stripLocaleFromPath(location.pathname);
-  const title = "Shop | Sitedesk";
+  const title = `Shop | ${SITE_CONFIG.siteName}`;
   const description =
     isEn
-      ? "Browse products, filter by category, and checkout quickly with Stripe on Sitedesk."
-      : "Bekijk producten, filter op categorie en reken direct af via een snelle Stripe checkout op Sitedesk.";
-  const canonical = `https://sitedesk.co${location.pathname}`;
+      ? "Browse products, filter by category, and complete checkout in a neutral storefront template."
+      : "Bekijk producten, filter op categorie en reken af in een neutrale shop-template.";
+  const canonical = `${SITE_CONFIG.siteUrl}${location.pathname}`;
   const alternateLinks = getAlternateHrefLangs(pathWithoutLocale);
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState<Product[]>([]);
