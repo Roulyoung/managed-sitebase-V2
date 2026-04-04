@@ -1,43 +1,85 @@
 # Template Start
 
-Dit project is bedoeld als vaste managed site-base voor nieuwe bedrijven.
+Use this checklist immediately after cloning or starting a new client project.
 
-## Waar begin je
+## Required Project Docs
 
-Eerst aanpassen:
+Create or update these files first:
 
-- [src/lib/siteConfig.ts](./src/lib/siteConfig.ts)
-- [index.html](./index.html) alleen als je extra default metadata wilt wijzigen
-- [src/pages/Index.tsx](./src/pages/Index.tsx)
-- [src/pages/Webshop.tsx](./src/pages/Webshop.tsx)
-- [src/pages/Blog.tsx](./src/pages/Blog.tsx)
-- [src/pages/BlogPost.tsx](./src/pages/BlogPost.tsx)
+1. `PROJECT_KEYS_REGISTER.md`
+2. `PROJECT_SECRETS_PLAYBOOK.md`
+3. `GOOGLE_SHEETS_ACCESS.md`
 
-## Belangrijk principe
+## Purpose Of Each File
 
-Alle vaste merkgegevens horen in `siteConfig.ts`. Dus niet opnieuw hardcoden in componenten of pagina's.
+- `PROJECT_KEYS_REGISTER.md`
+  Track where project secrets, sheet ids, domains, repos, and deployment settings live.
+  Do not store raw secrets in it.
 
-## Nieuwe repo starten vanaf template
+- `PROJECT_SECRETS_PLAYBOOK.md`
+  Keep the project-specific storage and rotation process clear.
+  This is the operational reference for secrets and verification.
 
-Aanpak:
+- `GOOGLE_SHEETS_ACCESS.md`
+  Reuse the standard Google Sheets access model:
+  shared service account, worker secret, local admin script, no JSON in git.
 
-1. Maak een nieuwe GitHub repo op basis van deze template.
-2. Clone die repo lokaal.
-3. Vul eerst `src/lib/siteConfig.ts` in.
-4. Vervang daarna logo, kleuren, copy, juridische links en eventuele shop/productdata.
+## First Setup Pass
 
-CLI voorbeeld:
+1. Set project name, domain, repo, and sheet id
+2. Confirm worker choice:
+   - shared worker
+   - dedicated worker
+3. Create one temporary bootstrap Cloudflare token:
+   - required scope: `API Tokens Write`
+4. If using Codex automation, paste the bootstrap token once in the active chat.
+5. Use the bootstrap token once to mint scoped Cloudflare token classes:
+   - zone
+   - pages
+   - shared-worker
+   - worker (only when a site-specific worker token is required)
+   - images (if Cloudflare Images is used)
+6. Revoke the bootstrap token immediately after class token creation and verification.
+7. Put raw secrets in named local env vars or a non-committed `.env`, not in chat or markdown.
+8. Use `scripts/use-cloudflare-context.ps1` before any `wrangler` or Cloudflare CLI action
+9. Confirm GitHub repo variables and secrets
+10. Confirm Cloudflare Pages project
+11. Confirm Google Sheet access
+12. Add a local sheet admin script if the project uses Sheets operationally
+13. Run one verification command for each critical integration
 
-```sh
-gh repo create <owner>/<nieuwe-repo> --template <owner>/managed-sitebase-V2 --private --clone
-```
+## Minimum Verification
 
-## Minimale checklist
+- Site build works
+- Worker endpoint responds
+- Google Sheet read works
+- Stripe config path is documented
+- Domain/canonical is documented
+- Live share URL is documented in full `https://` form
 
-- Merknaam klopt
-- Domein klopt
-- Logo klopt
-- Mail en telefoon kloppen
-- WhatsApp-link klopt
-- Footer en metadata kloppen
-- `npm run build` slaagt
+## Rule
+
+If a new project starts without these docs, add them before the project grows.
+That prevents missing secrets, unclear ownership, and repeated setup mistakes.
+Always move secrets from local env vars into GitHub or Cloudflare by CLI instead of pasting raw values into chat.
+Do not use one permanent global `CLOUDFLARE_API_TOKEN` for every repo; activate the right token context per task.
+Mandatory onboarding default: one temporary bootstrap token -> mint scoped class tokens -> revoke bootstrap token immediately.
+Allowed exception: bootstrap token may be pasted once in chat only for Codex onboarding automation, then must be revoked immediately.
+
+## Share Rule
+
+When sending the website to a client or lead for the first time:
+
+- always send the full `https://` URL
+- example: `https://clientdomain.com`
+
+Do not assume `clientdomain.com` will be clickable everywhere.
+## Admin Auth Rule
+
+For shared-worker admin access:
+
+- use a site-specific worker secret like ADMIN_PASSWORD_<SITEKEY>
+- point the admin frontend to the worker API, not a relative site route
+- include the project site key on admin requests
+
+

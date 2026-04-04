@@ -14,6 +14,7 @@ Allowed:
 Not allowed:
 - plaintext tokens in `.md`, `.json`, `.env` committed or shared
 - one global full-access token for all clients
+- pasting scoped class tokens in chat
 
 ## Per-Client Isolation (Mandatory)
 
@@ -26,15 +27,27 @@ Each client gets:
 
 ## Cloudflare Token Policy
 
-Create per-client token with minimum permissions:
-- `Zone.Cache Purge:Edit`
-- `Zone:Read` (optional but useful)
+Use token classes, not one generic token:
 
-Scope:
-- include only that client zone
+- `zone`: `Zone.DNS:Edit`, `Zone:Read` (scoped to the client zone)
+- `pages`: `Account.Pages:Write`, `Account.Account Settings:Read`
+- `worker`: `Workers Scripts:Write`, `Workers KV:Write`, `D1:Write`, `Account Settings:Read` (only if site-specific worker access is needed)
+- `shared-worker`: shared worker platform deploy/migration permissions
+- `images`: `Images:Write` (and `Images:Read` if needed)
 
-Optional extra token (separate): deploy automation token with only required Pages permissions.
-Do not reuse purge token for broad account admin actions.
+Mandatory onboarding default:
+
+- first create one temporary bootstrap token with `API Tokens Write`
+- use bootstrap token to generate all needed class tokens above
+- then delete/revoke bootstrap token immediately
+- if Codex creates tokens, bootstrap token may be pasted once in the active chat session and is treated as exposed by default
+
+Rules:
+
+- keep `zone`, `pages`, `worker`, `shared-worker`, and `images` separated by purpose
+- do not reuse pages token for worker deploys
+- do not keep a permanent global `CLOUDFLARE_API_TOKEN` in local user env
+- activate per-task context via `scripts/use-cloudflare-context.ps1`
 
 ## Where to Store What
 
@@ -58,12 +71,18 @@ Do not reuse purge token for broad account admin actions.
 ## Fast Onboarding Procedure (2-5 min)
 
 1. Clone from template.
-2. Create client-scoped Cloudflare token(s).
-3. Set GitHub repo secrets.
-4. Set Apps Script properties.
-5. Run one deploy.
-6. Purge cache once.
-7. Validate:
+2. Create one temporary bootstrap Cloudflare token (`API Tokens Write`).
+3. If using Codex automation, paste bootstrap token once in the active chat so Codex can mint class tokens.
+4. Use bootstrap token to create client-scoped token classes (`zone`, `pages`, `shared-worker`, optional `worker`, optional `images`).
+5. Revoke bootstrap token immediately after class token creation.
+6. Set local token env vars (`CF_TOKEN_ZONE_<SITEKEY>`, `CF_TOKEN_PAGES_<SITEKEY>`, `CF_TOKEN_SHARED_WORKER`, optional `CF_TOKEN_WORKER_<SITEKEY>`, optional `CF_TOKEN_IMAGES_<SITEKEY>`).
+7. Verify context before setup actions:
+   - `.\scripts\use-cloudflare-context.ps1 -Context pages -SiteKey <sitekey> -Verify`
+8. Set GitHub repo secrets.
+9. Set Apps Script properties.
+10. Run one deploy.
+11. Purge cache once.
+12. Validate:
 - homepage loads
 - product page checkout path works
 - canonical/hreflang are correct on localized pages
