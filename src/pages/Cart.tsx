@@ -7,8 +7,7 @@ import { loadCart, updateQuantity as updateQtyStore, saveCart, clearCart, type C
 import { validateCartBeforeCheckout } from "@/lib/checkoutValidation";
 import { ArrowRight, Loader2, Minus, Plus, ShoppingBag, Trash } from "lucide-react";
 import { getLocaleFromPath, withLocalePath } from "@/lib/i18n";
-
-const CHECKOUT_ENDPOINT = "https://stripe-webhook.rdo90.workers.dev/create-checkout-session";
+import { WORKER_CHECKOUT_ENDPOINT } from "@/lib/workerApi";
 
 const currency = new Intl.NumberFormat("nl-NL", {
   style: "currency",
@@ -72,7 +71,7 @@ const CartPage = () => {
         return;
       }
 
-      const res = await fetch(CHECKOUT_ENDPOINT, {
+      const res = await fetch(WORKER_CHECKOUT_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

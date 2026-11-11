@@ -1,0 +1,15 @@
+{
+  "tabs": {
+    "SiteConfig": [
+      "site_key",
+      "schema_version",
+      "brand_name",
+      "primary_locale",
+      "secondary_locales",
+      "site_url",
+      "support_email",
+      "contact_email"
+    ],
+    "Navigation": ["key", "label", "href", "sort_order", "visible"]
+  }
+}

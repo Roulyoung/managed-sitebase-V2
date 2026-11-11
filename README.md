@@ -23,6 +23,12 @@ npm run dev
 
 De hoofdconfig staat in [src/lib/siteConfig.ts](./src/lib/siteConfig.ts).
 
+## Worker Platform Policy
+
+Lees eerst [WORKER_PLATFORM_PLAN.md](./WORKER_PLATFORM_PLAN.md) voordat je worker-URLs, deploys, Sheets-schema's of backend-routes wijzigt.
+
+Gebruik voor nieuwe klantrepos geen hardcoded client-specifieke `workers.dev` defaults. Gebruik env vars zoals `VITE_WORKER_BASE_URL` en `VITE_WORKER_SITE_KEY` en houd de worker multi-site en backward compatible.
+
 Pas hier minimaal deze velden aan:
 
 - `siteName`
@@ -48,7 +54,17 @@ Pas hier minimaal deze velden aan:
 4. Vervang placeholder-copy op homepage, webshop, blog en footer.
 5. Vervang `public/placeholder.svg` met het nieuwe logo of pas `logoPath` aan.
 6. Controleer metadata, contactformulieren, worker-envs en checkout-URLs.
-7. Draai `npm run build` voor verificatie.
+7. Als Stripe wordt gebruikt, volg [STRIPE_PROJECTS_WORKFLOW.md](./STRIPE_PROJECTS_WORKFLOW.md) voor projectvariabelen en omgevingen.
+8. Draai `npm run build` voor verificatie.
+9. Bekijk [FEATURE_UPDATE_LOG.md](./FEATURE_UPDATE_LOG.md) en [FEATURE_AUDIT_PLAYBOOK.md](./FEATURE_AUDIT_PLAYBOOK.md) om ook bestaande projecten tegen de actuele template te vergelijken.
+
+## Lovable export omzetten
+
+Als de input een Lovable export is, gebruik dan eerst:
+
+- [LOVABLE_EXPORT_TO_CLOUDFLARE_PLAYBOOK.md](./LOVABLE_EXPORT_TO_CLOUDFLARE_PLAYBOOK.md)
+
+Dat document dekt de vaste conversiestappen voor routing/base, redirects, canonical metadata en onderhoudbare content-structuur.
 
 ## Template workflow notitie
 
