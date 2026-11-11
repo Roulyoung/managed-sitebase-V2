@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run lint:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run test:*)",
+      "Bash(npm test:*)",
+      "Bash(npm run preflight:*)",
+      "Bash(npm ci:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)"
+    ],
+    "ask": [
+      "Bash(git push:*)",
+      "Bash(npx wrangler:*)",
+      "Bash(wrangler:*)",
+      "Bash(gh secret:*)",
+      "Bash(gh variable:*)",
+      "Bash(stripe:*)",
+      "PowerShell(git push:*)",
+      "PowerShell(npx wrangler:*)",
+      "PowerShell(wrangler:*)",
+      "PowerShell(gh secret:*)",
+      "PowerShell(stripe:*)"
+    ],
+    "deny": [
+      "Read(./worker/secretgogle/**)",
+      "Read(./worker/.dev.vars)",
+      "Read(./worker/wrangler.toml)",
+      "Read(./worker/pagespeed-api-*.json)",
+      "Read(./secrets-*.txt)",
+      "Read(./.projects/vault/**)"
+    ]
+  }
+}

@@ -15,6 +15,7 @@
     "sheets:bootstrap": "node scripts/google-sheets-admin.js bootstrap",
     "test": "vitest run",
     "test:watch": "vitest",
+    "preflight": "node scripts/preflight-check.mjs",
     "session-close": "node scripts/preflight-check.mjs",
     "close": "powershell -File scripts/session-close.ps1"
   },
