@@ -19,6 +19,7 @@ import {
   type SupportedLocale,
 } from "@/lib/i18n";
 import { SITE_CONFIG } from "@/lib/siteConfig";
+import { WORKER_CHECKOUT_ENDPOINT, WORKER_PRODUCTS_ENDPOINT } from "@/lib/workerApi";
 
 type Product = {
   id: string;
@@ -40,8 +41,6 @@ type Product = {
   stock?: string;
 };
 
-const PRODUCTS_ENDPOINT = "https://stripe-webhook.rdo90.workers.dev/products";
-const CHECKOUT_ENDPOINT = "https://stripe-webhook.rdo90.workers.dev/create-checkout-session";
 const CLOUDFLARE_IMAGE_HOST = "imagedelivery.net";
 const CF_MAIN_IMAGE_VARIANT = import.meta.env.VITE_CF_IMAGE_MAIN_VARIANT || "productmain";
 const CF_THUMB_IMAGE_VARIANT = import.meta.env.VITE_CF_IMAGE_THUMB_VARIANT || "productthumb";
@@ -172,7 +171,7 @@ const ProductPage = () => {
     const fetchProducts = async (showLoader: boolean) => {
       if (showLoader) setLoading(true);
       try {
-        const res = await fetch(PRODUCTS_ENDPOINT, { cache: "no-store" });
+        const res = await fetch(WORKER_PRODUCTS_ENDPOINT, { cache: "no-store" });
         if (!res.ok) throw new Error(isEn ? "Could not load products" : "Kon producten niet laden");
         const text = await res.text();
         let data;
@@ -335,7 +334,7 @@ const ProductPage = () => {
         return;
       }
 
-      const res = await fetch(CHECKOUT_ENDPOINT, {
+      const res = await fetch(WORKER_CHECKOUT_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

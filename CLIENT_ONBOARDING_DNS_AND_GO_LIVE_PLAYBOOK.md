@@ -62,6 +62,28 @@ Existing hosting can stay exactly where it is.
 
 Moving DNS to Cloudflare only changes where records are managed. It does not move the website by itself.
 
+## Domain canonicalization protocol (mandatory)
+
+Canonical host issues (`www` vs apex vs `pages.dev`) must be resolved before launch.
+
+1. Pick one canonical host for production:
+   - default: apex (`https://example.com`)
+   - alternative: `www` (`https://www.example.com`)
+2. Add both apex and `www` as custom domains in Cloudflare Pages.
+3. Point both DNS records to the Pages target and wait until both domains are `active`.
+4. Add redirect rules in `public/_redirects` before the SPA fallback:
+   - `http://<apex>/*` -> `https://<canonical>/:splat` `301!`
+   - `http://www.<apex>/*` -> `https://<canonical>/:splat` `301!`
+   - `https://www.<apex>/*` -> `https://<canonical>/:splat` `301!` (if apex is canonical)
+   - `https://<project>.pages.dev/*` -> `https://<canonical>/:splat` `301!`
+5. Ensure canonical tags use the same host (`SITE_CONFIG.siteUrl` + page `<link rel="canonical">`).
+6. Verify redirects for `/` and one deep route before go-live:
+   - canonical URL returns `200`
+   - `www` returns `301` to canonical
+   - `http` returns `301` to canonical `https`
+   - `pages.dev` returns `301` to canonical
+7. Verify DNS answers on local resolver and one public resolver (`1.1.1.1` or `8.8.8.8`).
+
 ## Mail rule
 
 Do not assume transactional mail is ready because an account exists.

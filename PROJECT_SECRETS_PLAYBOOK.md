@@ -2,6 +2,8 @@
 
 Purpose: one copyable process for storing, rotating, and verifying secrets for any client project without putting raw values in the repo.
 
+For Stripe publishable-key setup, use [STRIPE_PROJECTS_WORKFLOW.md](./STRIPE_PROJECTS_WORKFLOW.md). Keep Worker-only Stripe secrets in the Cloudflare Worker secret store.
+
 ## Core Rules
 
 - Never commit raw tokens, API keys, webhook secrets, service-account JSON, or passwords.
@@ -156,6 +158,8 @@ For projects that use Google Sheets as operational data:
 - Keep `GOOGLE_SERVICE_ACCOUNT_EMAIL` in worker vars
 - Keep `GOOGLE_SERVICE_ACCOUNT_KEY` in the Cloudflare Worker secret store
 - Do not commit the raw Google JSON key file
+- In this workspace, reuse the canonical local JSON key at `worker/secretgogle/service-account.json` when you need a local key source
+- Do not ask for a new Google private key if that file already exists in the template workspace
 
 Preferred local workflow:
 
@@ -184,6 +188,7 @@ Preferred local workflow:
 12. Deploy once and verify homepage, product flow, and any checkout/admin paths.
 13. Fill in the project key register without raw values.
 14. If the project uses Google Sheets, verify local admin access with `npm run sheet:info` or equivalent.
+15. If you are already in the template workspace, check `worker/secretgogle/service-account.json` before asking the user for a Google private key.
 
 ## Live Link Rule
 

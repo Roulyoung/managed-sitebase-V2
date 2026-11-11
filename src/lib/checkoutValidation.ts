@@ -1,7 +1,6 @@
 import { saveCart, type CartItem } from "@/lib/cart";
 import { getLocalizedSlug, getLocalizedValue } from "@/lib/i18n";
-
-const PRODUCTS_ENDPOINT = "https://stripe-webhook.rdo90.workers.dev/products";
+import { WORKER_PRODUCTS_ENDPOINT } from "@/lib/workerApi";
 
 type LatestProduct = {
   key: string;
@@ -41,7 +40,7 @@ const parseStockLimit = (stockRaw: string): number | null => {
 };
 
 const fetchLatestProducts = async (): Promise<Map<string, LatestProduct>> => {
-  const response = await fetch(PRODUCTS_ENDPOINT, { cache: "no-store" });
+  const response = await fetch(WORKER_PRODUCTS_ENDPOINT, { cache: "no-store" });
   if (!response.ok) throw new Error("Kon actuele productdata niet laden.");
 
   const text = await response.text();

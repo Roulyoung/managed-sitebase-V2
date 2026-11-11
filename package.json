@@ -11,8 +11,13 @@
     "preview": "vite preview",
     "i18n:blog:scaffold": "node scripts/blog-locale-scaffold.mjs",
     "i18n:blog:clean": "node scripts/blog-locale-clean.mjs",
+    "sheets:info": "node scripts/google-sheets-admin.js info",
+    "sheets:bootstrap": "node scripts/google-sheets-admin.js bootstrap",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "preflight": "node scripts/preflight-check.mjs",
+    "session-close": "node scripts/preflight-check.mjs",
+    "close": "powershell -File scripts/session-close.ps1"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

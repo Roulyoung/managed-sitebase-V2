@@ -17,6 +17,7 @@ import {
   withLocalePath,
 } from "@/lib/i18n";
 import { SITE_CONFIG } from "@/lib/siteConfig";
+import { WORKER_BASE_ORIGIN, WORKER_CHECKOUT_ENDPOINT, WORKER_PRODUCTS_ENDPOINT } from "@/lib/workerApi";
 
 type Product = {
   name: string;
@@ -36,10 +37,7 @@ type Product = {
   deliveryCostCents?: number;
 };
 
-const PRODUCTS_ENDPOINT = "https://stripe-webhook.rdo90.workers.dev/products";
-const CHECKOUT_ENDPOINT = "https://stripe-webhook.rdo90.workers.dev/create-checkout-session";
 const IMAGE_DELIVERY_ORIGIN = "https://imagedelivery.net";
-const PRODUCTS_API_ORIGIN = "https://stripe-webhook.rdo90.workers.dev";
 
 const currency = new Intl.NumberFormat("nl-NL", {
   style: "currency",
@@ -90,7 +88,7 @@ const Shop = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(PRODUCTS_ENDPOINT);
+        const response = await fetch(WORKER_PRODUCTS_ENDPOINT);
         if (!response.ok) throw new Error(isEn ? "Could not load products" : "Kon producten niet laden");
         const text = await response.text();
         let data;
@@ -349,7 +347,7 @@ const Shop = () => {
       }
 
       const shippingCents = Math.max(...validation.cart.map((c) => c.deliveryCostCents || 0), 0);
-      const res = await fetch(CHECKOUT_ENDPOINT, {
+      const res = await fetch(WORKER_CHECKOUT_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -431,7 +429,7 @@ const Shop = () => {
         return;
       }
 
-      const res = await fetch(CHECKOUT_ENDPOINT, {
+      const res = await fetch(WORKER_CHECKOUT_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -488,7 +486,7 @@ const Shop = () => {
           <link key={alt.locale} rel="alternate" hrefLang={alt.locale} href={alt.href} />
         ))}
         <link rel="preconnect" href={IMAGE_DELIVERY_ORIGIN} crossOrigin="" />
-        <link rel="preconnect" href={PRODUCTS_API_ORIGIN} crossOrigin="" />
+        <link rel="preconnect" href={WORKER_BASE_ORIGIN} crossOrigin="" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:type" content="website" />

@@ -1,6 +1,6 @@
-# Template Start
+﻿# Template Start
 
-Use this checklist immediately after cloning or starting a new client project.
+Read SESSION_START.md first, then use this checklist immediately after cloning or starting a new client project.
 
 ## Required Project Docs
 
@@ -9,6 +9,13 @@ Create or update these files first:
 1. `PROJECT_KEYS_REGISTER.md`
 2. `PROJECT_SECRETS_PLAYBOOK.md`
 3. `GOOGLE_SHEETS_ACCESS.md`
+4. `STRIPE_PROJECTS_WORKFLOW.md` when Stripe is used
+5. `STRIPE_MODE_SWITCHING.md` when Stripe test/live switching is used
+6. `STRIPE_CHECKOUT_TESTING.md` when Stripe Checkout is used
+7. `FEATURE_UPDATE_LOG.md` for reusable feature history and comparison
+8. `FEATURE_AUDIT_PLAYBOOK.md` when auditing existing projects
+9. `ENGINEERING_ARCHITECTURE_RULES.md`
+10. `ARCHITECTURE_MIGRATION_PLAYBOOK.md` when adapting an existing project
 
 ## Purpose Of Each File
 
@@ -25,6 +32,8 @@ Create or update these files first:
   shared service account, worker secret, local admin script, no JSON in git.
 
 ## First Setup Pass
+
+If the project starts from a Lovable export, read `LOVABLE_EXPORT_TO_CLOUDFLARE_PLAYBOOK.md` before editing routing or deploy config.
 
 1. Set project name, domain, repo, and sheet id
 2. Confirm worker choice:
@@ -45,8 +54,11 @@ Create or update these files first:
 9. Confirm GitHub repo variables and secrets
 10. Confirm Cloudflare Pages project
 11. Confirm Google Sheet access
-12. Add a local sheet admin script if the project uses Sheets operationally
-13. Run one verification command for each critical integration
+12. If `worker/secretgogle/service-account.json` already exists in this workspace, reuse it before asking for a new Google private key
+13. Add a local sheet admin script if the project uses Sheets operationally
+14. If Stripe is used, initialize Stripe Projects and follow `STRIPE_PROJECTS_WORKFLOW.md`
+15. Run one verification command for each critical integration
+16. Check the template feature log and record any missing or outdated features for this project
 
 ## Minimum Verification
 
@@ -56,6 +68,7 @@ Create or update these files first:
 - Stripe config path is documented
 - Domain/canonical is documented
 - Live share URL is documented in full `https://` form
+- `www`/apex/pages.dev redirect checks are completed using `CLIENT_ONBOARDING_DNS_AND_GO_LIVE_PLAYBOOK.md` protocol
 
 ## Rule
 
@@ -81,5 +94,3 @@ For shared-worker admin access:
 - use a site-specific worker secret like ADMIN_PASSWORD_<SITEKEY>
 - point the admin frontend to the worker API, not a relative site route
 - include the project site key on admin requests
-
-

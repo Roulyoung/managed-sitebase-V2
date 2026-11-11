@@ -20,8 +20,19 @@ const { render, posts } = await import(pathToFileURL(ssrEntry).href);
 const staticBaseRoutes = ["/", "/zakelijke-websites", "/shop", "/webshop", "/blog", "/over-ons"];
 const blogBaseRoutes = posts.map((post) => `/blog/${post.id}`);
 
-const PRODUCTS_ENDPOINT =
-  process.env.PRERENDER_PRODUCTS_ENDPOINT || "https://stripe-webhook.rdo90.workers.dev/products";
+const WORKER_BASE_URL = (
+  process.env.PRERENDER_WORKER_BASE_URL ||
+  process.env.VITE_WORKER_BASE_URL ||
+  "http://localhost:8787"
+).replace(/\/$/, "");
+const WORKER_SITE_KEY = (process.env.PRERENDER_WORKER_SITE_KEY || process.env.VITE_WORKER_SITE_KEY || "").trim();
+const PRODUCTS_ENDPOINT = process.env.PRERENDER_PRODUCTS_ENDPOINT || (() => {
+  const url = new URL(`${WORKER_BASE_URL}/products`);
+  if (WORKER_SITE_KEY) {
+    url.searchParams.set("site", WORKER_SITE_KEY);
+  }
+  return url.toString();
+})();
 const PRODUCT_ROUTE_LIMIT = Number(process.env.PRERENDER_PRODUCT_LIMIT || "120");
 const ENABLE_PRODUCT_PRERENDER = process.env.PRERENDER_PRODUCTS !== "false";
 
