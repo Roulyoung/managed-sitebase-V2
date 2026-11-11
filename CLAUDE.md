@@ -14,6 +14,7 @@ Dit project is oorspronkelijk met Codex opgezet. Alle regels in `AGENTS.md` geld
 
 - Deze map (`managed-sitebase-V2 - Claude`) is een 1-op-1 werkkopie van de canonieke template `..\managed-sitebase-V2` (zelfde commit en dezelfde git-remote `Roulyoung/managed-sitebase-V2`).
 - `PROJECT_CONTEXT.md` en `scripts/preflight-check.mjs` noemen de canonieke map. Dat verschil is bekend en bedoeld: het is geen reden om te stoppen, maar **push nooit zonder expliciete toestemming**, want beide mappen pushen naar dezelfde repo.
+- Deze map werkt op branch `claude`, niet op `main`. Commit hier en breng wijzigingen via een pull request naar `main`. Push naar `main` start een productie-deploy.
 - Werk nooit in sibling-mappen (`..\sitedesk.co`, `..\roadherorentals.com`, enz.) tenzij de gebruiker daar expliciet om vraagt.
 
 ## Stack en structuur
